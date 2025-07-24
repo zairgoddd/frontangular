@@ -1,13 +1,5 @@
-
 {
-  "builds": [
-    {
-      "src": "dist/ataques-infor-finales/**/*",
-      "use": "@vercel/static"
-    }
-  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
-
