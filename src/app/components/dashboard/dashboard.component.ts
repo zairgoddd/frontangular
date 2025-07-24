@@ -21,16 +21,10 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Dashboard iniciando...');
-    
-    // Solo obtener usuario si estamos en el navegador
     if (isPlatformBrowser(this.platformId)) {
       this.currentUser = this.authService.getCurrentUser();
-      console.log('Usuario actual:', this.currentUser);
       
-      // Si no hay usuario, redirigir a login
       if (!this.currentUser) {
-        console.log('No hay usuario, redirigiendo a login');
         this.router.navigate(['/login']);
         return;
       }
@@ -39,9 +33,60 @@ export class DashboardComponent implements OnInit {
     this.isLoading = false;
   }
 
+  // Navegación
+  irADashboard(): void {
+    // Ya estamos en dashboard, no hacer nada
+  }
+
+  irAAmenazas(): void {
+    this.router.navigate(['/amenazas']);
+  }
+
+  irAAtaques(): void {
+    this.router.navigate(['/ataques']);
+  }
+
+  irAUsuarios(): void {
+    if (this.esAdmin()) {
+      alert('Módulo de usuarios próximamente...');
+    }
+  }
+
   logout(): void {
-    console.log('Cerrando sesión...');
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // Validaciones de permisos
+  esAdmin(): boolean {
+    return this.currentUser?.role === 'ADMINISTRADOR';
+  }
+
+  puedeCrearAmenazas(): boolean {
+    const role = this.currentUser?.role;
+    return role === 'ANALISTA' || role === 'ADMINISTRADOR';
+  }
+
+  puedeEditarAmenazas(): boolean {
+    const role = this.currentUser?.role;
+    return role === 'ANALISTA' || role === 'ADMINISTRADOR';
+  }
+
+  puedeEliminarAmenazas(): boolean {
+    return this.currentUser?.role === 'ADMINISTRADOR';
+  }
+
+  puedeCrearAtaques(): boolean {
+    const role = this.currentUser?.role;
+    return role === 'ANALISTA' || role === 'ADMINISTRADOR';
+  }
+
+  puedeEditarAtaques(): boolean {
+    const role = this.currentUser?.role;
+    return role === 'ANALISTA' || role === 'ADMINISTRADOR';
+  }
+
+  puedeEliminarAtaques(): boolean {
+    return this.currentUser?.role === 'ADMINISTRADOR';
   }
 }

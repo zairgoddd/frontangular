@@ -1,0 +1,67 @@
+<div class="amenaza-container">
+  <div class="header">
+    <h1>🛡️ Gestión de Amenazas</h1>
+    <div class="actions">
+      <button class="btn-back" (click)="volverDashboard()">← Volver al Dashboard</button>
+      <button *ngIf="puedeCrear()" class="btn-primary" (click)="nuevaAmenaza()">
+        ➕ Nueva Amenaza
+      </button>
+    </div>
+  </div>
+
+  <div class="user-info">
+    <span>Usuario: <strong>{{currentUser?.nombre}}</strong></span>
+    <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
+      {{currentUser?.role}}
+    </span>
+  </div>
+
+  <div class="filters" *ngIf="amenazas.length > 0">
+    <label>Filtrar por nivel: </label>
+    <select (change)="filtrarPorNivel($event)" class="select-filter">
+      <option value="">Todos los niveles</option>
+      <option value="CRITICO">Crítico</option>
+      <option value="ALTO">Alto</option>
+      <option value="MEDIO">Medio</option>
+      <option value="BAJO">Bajo</option>
+    </select>
+  </div>
+
+  <div class="loading" *ngIf="loading">Cargando amenazas...</div>
+
+  <div class="error" *ngIf="error">{{error}}</div>
+
+  <div class="amenazas-grid" *ngIf="!loading && amenazasFiltradas.length > 0">
+    <div class="amenaza-card" *ngFor="let amenaza of amenazasFiltradas">
+      <div class="amenaza-header">
+        <h3>{{amenaza.tipo}}</h3>
+        <span class="nivel-badge" [ngClass]="'nivel-' + amenaza.nivelRiesgo.toLowerCase()">
+          {{amenaza.nivelRiesgo}}
+        </span>
+      </div>
+      
+      <div class="amenaza-body">
+        <p><strong>Descripción:</strong></p>
+        <p class="descripcion">{{amenaza.descripcion}}</p>
+        <p><strong>Fecha de Detección:</strong> {{formatDate(amenaza.fechaDeteccion)}}</p>
+      </div>
+      
+      <div class="amenaza-actions">
+        <button class="btn-view" (click)="verAtaques(amenaza.id!)">
+          👁️ Ver Ataques
+        </button>
+        <button *ngIf="puedeEditar()" class="btn-edit" (click)="editarAmenaza(amenaza.id!)">
+          ✏️ Editar
+        </button>
+        <button *ngIf="puedeEliminar()" class="btn-delete" (click)="eliminarAmenaza(amenaza.id!, amenaza.tipo)">
+          🗑️ Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-data" *ngIf="!loading && amenazasFiltradas.length === 0 && !error">
+    <h3>No hay amenazas registradas</h3>
+    <p *ngIf="puedeCrear()">Haz clic en "Nueva Amenaza" para agregar la primera</p>
+  </div>
+</div>

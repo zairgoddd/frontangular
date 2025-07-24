@@ -10,35 +10,106 @@
     </div>
   </header>
   
+  <!-- Barra de navegación -->
+  <nav class="main-nav">
+    <button class="nav-btn active" (click)="irADashboard()">
+      🏠 Dashboard
+    </button>
+    <button class="nav-btn" (click)="irAAmenazas()">
+      🛡️ Amenazas
+    </button>
+    <button class="nav-btn" (click)="irAAtaques()">
+      ⚔️ Ataques
+    </button>
+    <button 
+      *ngIf="esAdmin()" 
+      class="nav-btn" 
+      (click)="irAUsuarios()">
+      👥 Usuarios
+    </button>
+  </nav>
+  
   <main class="dashboard-content">
-    <div class="welcome-card">
-      <h2>¡Bienvenido al Sistema!</h2>
-      <p>Has iniciado sesión exitosamente como <strong>{{currentUser?.role}}</strong></p>
-      
-      <div class="user-details">
-        <div class="detail-item">
-          <label>Usuario:</label>
-          <span>{{currentUser?.username}}</span>
-        </div>
-        <div class="detail-item">
-          <label>Email:</label>
-          <span>{{currentUser?.email}}</span>
-        </div>
-        <div class="detail-item">
-          <label>Rol:</label>
-          <span>{{currentUser?.role}}</span>
+    <div class="welcome-section">
+      <h2>¡Bienvenido {{currentUser?.nombre}}!</h2>
+      <p>Has iniciado sesión como <strong>{{currentUser?.role}}</strong></p>
+    </div>
+
+    <!-- Cards de navegación rápida -->
+    <div class="action-cards">
+      <div class="action-card" (click)="irAAmenazas()">
+        <div class="card-icon">🛡️</div>
+        <h3>Gestionar Amenazas</h3>
+        <p>Ver, crear y administrar amenazas de seguridad</p>
+        <div class="card-permissions">
+          <span *ngIf="puedeCrearAmenazas()" class="permission">✅ Crear</span>
+          <span *ngIf="puedeEditarAmenazas()" class="permission">✅ Editar</span>
+          <span *ngIf="puedeEliminarAmenazas()" class="permission">✅ Eliminar</span>
+          <span class="permission">✅ Ver</span>
         </div>
       </div>
-      
-      <div class="next-steps">
-        <h3>Próximos pasos:</h3>
-        <ul>
-          <li>✅ Login funcionando correctamente</li>
-          <li>🔄 Implementar dashboard específico por rol</li>
-          <li>🔄 Crear módulo de amenazas</li>
-          <li>🔄 Crear módulo de ataques</li>
-          <li>🔄 Implementar gestión de usuarios (Admin)</li>
-        </ul>
+
+      <div class="action-card" (click)="irAAtaques()">
+        <div class="card-icon">⚔️</div>
+        <h3>Gestionar Ataques</h3>
+        <p>Ver, registrar y monitorear ataques informáticos</p>
+        <div class="card-permissions">
+          <span *ngIf="puedeCrearAtaques()" class="permission">✅ Crear</span>
+          <span *ngIf="puedeEditarAtaques()" class="permission">✅ Editar</span>
+          <span *ngIf="puedeEliminarAtaques()" class="permission">✅ Eliminar</span>
+          <span class="permission">✅ Ver</span>
+        </div>
+      </div>
+
+      <div class="action-card" *ngIf="esAdmin()" (click)="irAUsuarios()">
+        <div class="card-icon">👥</div>
+        <h3>Gestionar Usuarios</h3>
+        <p>Administrar usuarios y roles del sistema</p>
+        <div class="card-permissions">
+          <span class="permission">✅ Administrar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información del rol -->
+    <div class="role-info">
+      <h3>Tus permisos como {{currentUser?.role}}:</h3>
+      <div class="permissions-grid">
+        <div class="permission-item">
+          <strong>Amenazas:</strong>
+          <span *ngIf="currentUser?.role === 'CLIENTE'">Solo visualización</span>
+          <span *ngIf="currentUser?.role === 'ANALISTA'">Ver, crear y editar</span>
+          <span *ngIf="currentUser?.role === 'ADMINISTRADOR'">Control total</span>
+        </div>
+        <div class="permission-item">
+          <strong>Ataques:</strong>
+          <span *ngIf="currentUser?.role === 'CLIENTE'">Solo visualización</span>
+          <span *ngIf="currentUser?.role === 'ANALISTA'">Ver, crear y editar</span>
+          <span *ngIf="currentUser?.role === 'ADMINISTRADOR'">Control total</span>
+        </div>
+        <div class="permission-item" *ngIf="esAdmin()">
+          <strong>Usuarios:</strong>
+          <span>Gestión completa del sistema</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado del sistema -->
+    <div class="system-status">
+      <h3>Estado del Sistema</h3>
+      <div class="status-items">
+        <div class="status-item">
+          <span class="status-indicator online"></span>
+          <span>Sistema Operativo</span>
+        </div>
+        <div class="status-item">
+          <span class="status-indicator online"></span>
+          <span>Base de Datos Conectada</span>
+        </div>
+        <div class="status-item">
+          <span class="status-indicator online"></span>
+          <span>API Funcionando</span>
+        </div>
       </div>
     </div>
   </main>

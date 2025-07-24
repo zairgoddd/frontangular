@@ -1,0 +1,97 @@
+<div class="form-container">
+  <div class="header">
+    <h1>{{esEdicion ? '✏️ Editar Amenaza' : '➕ Nueva Amenaza'}}</h1>
+    <button class="btn-back" (click)="volver()">← Volver</button>
+  </div>
+
+  <div class="user-info">
+    <span>Usuario: <strong>{{currentUser?.nombre}}</strong></span>
+    <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
+      {{currentUser?.role}}
+    </span>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="amenazaForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="tipo">Tipo de Amenaza *</label>
+        <input 
+          type="text" 
+          id="tipo"
+          formControlName="tipo"
+          placeholder="Ej: Malware, Phishing, DDoS..."
+          [class.error]="isFieldInvalid('tipo')"
+        >
+        <div class="error-messages" *ngIf="isFieldInvalid('tipo')">
+          <small *ngIf="hasError('tipo', 'required')">El tipo es obligatorio</small>
+          <small *ngIf="hasError('tipo', 'minlength')">Mínimo 3 caracteres</small>
+          <small *ngIf="hasError('tipo', 'maxlength')">Máximo 100 caracteres</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción *</label>
+        <textarea 
+          id="descripcion"
+          formControlName="descripcion"
+          rows="4"
+          placeholder="Describe detalladamente la amenaza..."
+          [class.error]="isFieldInvalid('descripcion')"
+        ></textarea>
+        <div class="error-messages" *ngIf="isFieldInvalid('descripcion')">
+          <small *ngIf="hasError('descripcion', 'required')">La descripción es obligatoria</small>
+          <small *ngIf="hasError('descripcion', 'minlength')">Mínimo 10 caracteres</small>
+          <small *ngIf="hasError('descripcion', 'maxlength')">Máximo 500 caracteres</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nivelRiesgo">Nivel de Riesgo *</label>
+        <select 
+          id="nivelRiesgo"
+          formControlName="nivelRiesgo"
+          [class.error]="isFieldInvalid('nivelRiesgo')"
+        >
+          <option value="">Selecciona un nivel</option>
+          <option value="BAJO">🟢 Bajo</option>
+          <option value="MEDIO">🟡 Medio</option>
+          <option value="ALTO">🟠 Alto</option>
+          <option value="CRITICO">🔴 Crítico</option>
+        </select>
+        <div class="error-messages" *ngIf="isFieldInvalid('nivelRiesgo')">
+          <small *ngIf="hasError('nivelRiesgo', 'required')">El nivel de riesgo es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fechaDeteccion">Fecha de Detección</label>
+        <input 
+          type="date" 
+          id="fechaDeteccion"
+          formControlName="fechaDeteccion"
+        >
+        <small class="help-text">Si no se especifica, se usará la fecha actual</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="volver()">
+          Cancelar
+        </button>
+        <button 
+          type="submit" 
+          class="btn-submit"
+          [disabled]="amenazaForm.invalid || loading"
+        >
+          <span *ngIf="!loading">{{esEdicion ? 'Actualizar' : 'Crear'}} Amenaza</span>
+          <span *ngIf="loading">Guardando...</span>
+        </button>
+      </div>
+
+      <div class="error-general" *ngIf="error">
+        {{error}}
+      </div>
+
+    </form>
+  </div>
+</div>
