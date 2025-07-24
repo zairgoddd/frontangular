@@ -1,0 +1,45 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>🛡️ Sistema de Ataques Informáticos</h1>
+    <div class="user-info">
+      <span>Bienvenido, <strong>{{currentUser?.nombre}}</strong></span>
+      <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
+        {{currentUser?.role}}
+      </span>
+      <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </header>
+  
+  <main class="dashboard-content">
+    <div class="welcome-card">
+      <h2>¡Bienvenido al Sistema!</h2>
+      <p>Has iniciado sesión exitosamente como <strong>{{currentUser?.role}}</strong></p>
+      
+      <div class="user-details">
+        <div class="detail-item">
+          <label>Usuario:</label>
+          <span>{{currentUser?.username}}</span>
+        </div>
+        <div class="detail-item">
+          <label>Email:</label>
+          <span>{{currentUser?.email}}</span>
+        </div>
+        <div class="detail-item">
+          <label>Rol:</label>
+          <span>{{currentUser?.role}}</span>
+        </div>
+      </div>
+      
+      <div class="next-steps">
+        <h3>Próximos pasos:</h3>
+        <ul>
+          <li>✅ Login funcionando correctamente</li>
+          <li>🔄 Implementar dashboard específico por rol</li>
+          <li>🔄 Crear módulo de amenazas</li>
+          <li>🔄 Crear módulo de ataques</li>
+          <li>🔄 Implementar gestión de usuarios (Admin)</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>

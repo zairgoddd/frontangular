@@ -1,0 +1,86 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo">
+        <i class="shield-icon">🛡️</i>
+      </div>
+      <h1>Sistema de Ataques Informáticos</h1>
+      <p>Ingresa tus credenciales para acceder</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Campo Username -->
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input 
+          type="text" 
+          id="username"
+          formControlName="username"
+          placeholder="Ingresa tu usuario"
+          [class.error]="isFieldInvalid('username')"
+        >
+        <div class="error-messages" *ngIf="isFieldInvalid('username')">
+          <small *ngIf="hasError('username', 'required')">El usuario es obligatorio</small>
+        </div>
+      </div>
+
+      <!-- Campo Password -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input 
+          type="password" 
+          id="password"
+          formControlName="password"
+          placeholder="Ingresa tu contraseña"
+          [class.error]="isFieldInvalid('password')"
+        >
+        <div class="error-messages" *ngIf="isFieldInvalid('password')">
+          <small *ngIf="hasError('password', 'required')">La contraseña es obligatoria</small>
+          <small *ngIf="hasError('password', 'minlength')">La contraseña debe tener mínimo 6 caracteres</small>
+        </div>
+      </div>
+
+      <!-- Error general -->
+      <div class="alert alert-error" *ngIf="errorMessage">
+        <i class="error-icon">⚠️</i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botón de login -->
+      <button 
+        type="submit" 
+        class="login-btn"
+        [disabled]="isLoading"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Iniciar Sesión</span>
+        <span *ngIf="isLoading">
+          <i class="spinner">⟳</i>
+          Cargando...
+        </span>
+      </button>
+    </form>
+
+    <!-- Usuarios de prueba -->
+    <div class="demo-users">
+      <h3>Usuarios de prueba:</h3>
+      <div class="user-cards">
+        <div class="user-card">
+          <strong>Administrador</strong>
+          <p>Usuario: admin</p>
+          <p>Contraseña: admin123</p>
+        </div>
+        <div class="user-card">
+          <strong>Analista</strong>
+          <p>Usuario: analista</p>
+          <p>Contraseña: analista123</p>
+        </div>
+        <div class="user-card">
+          <strong>Cliente</strong>
+          <p>Usuario: cliente</p>
+          <p>Contraseña: cliente123</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
