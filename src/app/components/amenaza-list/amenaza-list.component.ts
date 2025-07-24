@@ -1,13 +1,15 @@
+// amenaza-list.component.ts - ACTUALIZADO
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AmenazaService, AmenazaDTO, NivelRiesgo } from '../../services/amenaza.service';
 import { AuthService, LoginResponse } from '../../services/auth.service';
+import { SharedHeaderComponent } from '../shared-header/shared-header.component';
 
 @Component({
   selector: 'app-amenaza-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SharedHeaderComponent],
   templateUrl: './amenaza-list.component.html',
   styleUrls: ['./amenaza-list.component.css']
 })
@@ -32,7 +34,7 @@ export class AmenazaListComponent implements OnInit {
   cargarAmenazas(): void {
     this.loading = true;
     this.error = '';
-    
+        
     this.amenazaService.listarTodas().subscribe({
       next: (amenazas) => {
         this.amenazas = amenazas;
@@ -77,13 +79,8 @@ export class AmenazaListComponent implements OnInit {
     }
   }
 
-verAtaques(amenazaId: number): void {
-  this.router.navigate(['/ataques/amenaza', amenazaId]);
-}
-
-  volverDashboard(): void {
-    const role = this.currentUser?.role?.toLowerCase();
-    this.router.navigate([`/${role}`]);
+  verAtaques(amenazaId: number): void {
+    this.router.navigate(['/ataques/amenaza', amenazaId]);
   }
 
   formatDate(date: string | undefined): string {

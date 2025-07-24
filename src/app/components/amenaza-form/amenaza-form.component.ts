@@ -1,14 +1,16 @@
+// amenaza-form.component.ts - ACTUALIZADO
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AmenazaService, AmenazaDTO, NivelRiesgo } from '../../services/amenaza.service';
 import { AuthService, LoginResponse } from '../../services/auth.service';
+import { SharedHeaderComponent } from '../shared-header/shared-header.component';
 
 @Component({
   selector: 'app-amenaza-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedHeaderComponent],
   templateUrl: './amenaza-form.component.html',
   styleUrls: ['./amenaza-form.component.css']
 })

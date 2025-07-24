@@ -1,13 +1,15 @@
+// ataque-list.component.ts - ACTUALIZADO
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AtaqueService, AtaqueDTO, Severidad } from '../../services/ataque.service';
 import { AuthService, LoginResponse } from '../../services/auth.service';
+import { SharedHeaderComponent } from '../shared-header/shared-header.component';
 
 @Component({
   selector: 'app-ataque-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SharedHeaderComponent],
   templateUrl: './ataque-list.component.html',
   styleUrls: ['./ataque-list.component.css']
 })

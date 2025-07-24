@@ -1,3 +1,9 @@
+/* Contenedor principal para toda la página */
+.page-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
 .form-container {
   padding: 20px;
   max-width: 800px;

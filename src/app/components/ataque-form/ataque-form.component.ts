@@ -5,11 +5,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AtaqueService, AtaqueDTO, Severidad } from '../../services/ataque.service';
 import { AmenazaService, AmenazaDTO } from '../../services/amenaza.service';
 import { AuthService, LoginResponse } from '../../services/auth.service';
+import { SharedHeaderComponent } from '../shared-header/shared-header.component'; // ← Importar el componente
 
 @Component({
   selector: 'app-ataque-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedHeaderComponent], // ← Agregarlo a imports
   templateUrl: './ataque-form.component.html',
   styleUrls: ['./ataque-form.component.css']
 })

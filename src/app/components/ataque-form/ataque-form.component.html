@@ -1,128 +1,127 @@
-<div class="form-container">
-  <div class="header">
-    <h1>{{esEdicion ? '✏️ Editar Ataque' : '➕ Nuevo Ataque'}}</h1>
-    <button class="btn-back" (click)="volver()">← Volver</button>
-  </div>
+<div class="page-container">
+  <!-- Header compartido -->
+  <app-shared-header activeRoute="ataques"></app-shared-header>
+  
+  <!-- Contenido del formulario -->
+  <div class="form-container">
+    <div class="header">
+      <h1>{{esEdicion ? '✏️ Editar Ataque' : '➕ Nuevo Ataque'}}</h1>
+      <button class="btn-back" (click)="volver()">← Volver</button>
+    </div>
 
-  <div class="user-info">
-    <span>Usuario: <strong>{{currentUser?.nombre}}</strong></span>
-    <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
-      {{currentUser?.role}}
-    </span>
-  </div>
-
-  <div class="form-card">
-    <form [formGroup]="ataqueForm" (ngSubmit)="onSubmit()">
-      
-      <div class="form-group">
-        <label for="tipo">Tipo de Ataque *</label>
-        <input 
-          type="text" 
-          id="tipo"
-          formControlName="tipo"
-          placeholder="Ej: SQL Injection, XSS, DoS..."
-          [class.error]="isFieldInvalid('tipo')"
-        >
-        <div class="error-messages" *ngIf="isFieldInvalid('tipo')">
-          <small *ngIf="hasError('tipo', 'required')">El tipo es obligatorio</small>
-          <small *ngIf="hasError('tipo', 'minlength')">Mínimo 3 caracteres</small>
-          <small *ngIf="hasError('tipo', 'maxlength')">Máximo 100 caracteres</small>
+    <div class="form-card">
+      <form [formGroup]="ataqueForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group">
+          <label for="tipo">Tipo de Ataque *</label>
+          <input 
+            type="text" 
+            id="tipo"
+            formControlName="tipo"
+            placeholder="Ej: SQL Injection, XSS, DoS..."
+            [class.error]="isFieldInvalid('tipo')"
+          >
+          <div class="error-messages" *ngIf="isFieldInvalid('tipo')">
+            <small *ngIf="hasError('tipo', 'required')">El tipo es obligatorio</small>
+            <small *ngIf="hasError('tipo', 'minlength')">Mínimo 3 caracteres</small>
+            <small *ngIf="hasError('tipo', 'maxlength')">Máximo 100 caracteres</small>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="vector">Vector de Ataque *</label>
-        <input 
-          type="text" 
-          id="vector"
-          formControlName="vector"
-          placeholder="Ej: Email, Web, Red, USB..."
-          [class.error]="isFieldInvalid('vector')"
-        >
-        <div class="error-messages" *ngIf="isFieldInvalid('vector')">
-          <small *ngIf="hasError('vector', 'required')">El vector es obligatorio</small>
-          <small *ngIf="hasError('vector', 'minlength')">Mínimo 3 caracteres</small>
-          <small *ngIf="hasError('vector', 'maxlength')">Máximo 200 caracteres</small>
+        <div class="form-group">
+          <label for="vector">Vector de Ataque *</label>
+          <input 
+            type="text" 
+            id="vector"
+            formControlName="vector"
+            placeholder="Ej: Email, Web, Red, USB..."
+            [class.error]="isFieldInvalid('vector')"
+          >
+          <div class="error-messages" *ngIf="isFieldInvalid('vector')">
+            <small *ngIf="hasError('vector', 'required')">El vector es obligatorio</small>
+            <small *ngIf="hasError('vector', 'minlength')">Mínimo 3 caracteres</small>
+            <small *ngIf="hasError('vector', 'maxlength')">Máximo 200 caracteres</small>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="sistemaAfectado">Sistema Afectado *</label>
-        <input 
-          type="text" 
-          id="sistemaAfectado"
-          formControlName="sistemaAfectado"
-          placeholder="Ej: Servidor Web, Base de Datos, Workstation..."
-          [class.error]="isFieldInvalid('sistemaAfectado')"
-        >
-        <div class="error-messages" *ngIf="isFieldInvalid('sistemaAfectado')">
-          <small *ngIf="hasError('sistemaAfectado', 'required')">El sistema afectado es obligatorio</small>
-          <small *ngIf="hasError('sistemaAfectado', 'minlength')">Mínimo 3 caracteres</small>
-          <small *ngIf="hasError('sistemaAfectado', 'maxlength')">Máximo 150 caracteres</small>
+        <div class="form-group">
+          <label for="sistemaAfectado">Sistema Afectado *</label>
+          <input 
+            type="text" 
+            id="sistemaAfectado"
+            formControlName="sistemaAfectado"
+            placeholder="Ej: Servidor Web, Base de Datos, Workstation..."
+            [class.error]="isFieldInvalid('sistemaAfectado')"
+          >
+          <div class="error-messages" *ngIf="isFieldInvalid('sistemaAfectado')">
+            <small *ngIf="hasError('sistemaAfectado', 'required')">El sistema afectado es obligatorio</small>
+            <small *ngIf="hasError('sistemaAfectado', 'minlength')">Mínimo 3 caracteres</small>
+            <small *ngIf="hasError('sistemaAfectado', 'maxlength')">Máximo 150 caracteres</small>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="severidad">Severidad *</label>
-        <select 
-          id="severidad"
-          formControlName="severidad"
-          [class.error]="isFieldInvalid('severidad')"
-        >
-          <option value="">Selecciona una severidad</option>
-          <option *ngFor="let sev of getSeveridadOptions()" [value]="sev.value">
-            {{sev.label}}
-          </option>
-        </select>
-        <div class="error-messages" *ngIf="isFieldInvalid('severidad')">
-          <small *ngIf="hasError('severidad', 'required')">La severidad es obligatoria</small>
+        <div class="form-group">
+          <label for="severidad">Severidad *</label>
+          <select 
+            id="severidad"
+            formControlName="severidad"
+            [class.error]="isFieldInvalid('severidad')"
+          >
+            <option value="">Selecciona una severidad</option>
+            <option *ngFor="let sev of getSeveridadOptions()" [value]="sev.value">
+              {{sev.label}}
+            </option>
+          </select>
+          <div class="error-messages" *ngIf="isFieldInvalid('severidad')">
+            <small *ngIf="hasError('severidad', 'required')">La severidad es obligatoria</small>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="amenazaId">Amenaza Asociada *</label>
-        <select 
-          id="amenazaId"
-          formControlName="amenazaId"
-          [class.error]="isFieldInvalid('amenazaId')"
-        >
-          <option value="">Selecciona una amenaza</option>
-          <option *ngFor="let amenaza of amenazas" [value]="amenaza.id">
-            {{amenaza.tipo}} - {{amenaza.nivelRiesgo}}
-          </option>
-        </select>
-        <div class="error-messages" *ngIf="isFieldInvalid('amenazaId')">
-          <small *ngIf="hasError('amenazaId', 'required')">La amenaza asociada es obligatoria</small>
+        <div class="form-group">
+          <label for="amenazaId">Amenaza Asociada *</label>
+          <select 
+            id="amenazaId"
+            formControlName="amenazaId"
+            [class.error]="isFieldInvalid('amenazaId')"
+          >
+            <option value="">Selecciona una amenaza</option>
+            <option *ngFor="let amenaza of amenazas" [value]="amenaza.id">
+              {{amenaza.tipo}} - {{amenaza.nivelRiesgo}}
+            </option>
+          </select>
+          <div class="error-messages" *ngIf="isFieldInvalid('amenazaId')">
+            <small *ngIf="hasError('amenazaId', 'required')">La amenaza asociada es obligatoria</small>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="fechaEvento">Fecha del Evento</label>
-        <input 
-          type="date" 
-          id="fechaEvento"
-          formControlName="fechaEvento"
-        >
-        <small class="help-text">Si no se especifica, se usará la fecha actual</small>
-      </div>
+        <div class="form-group">
+          <label for="fechaEvento">Fecha del Evento</label>
+          <input 
+            type="date" 
+            id="fechaEvento"
+            formControlName="fechaEvento"
+          >
+          <small class="help-text">Si no se especifica, se usará la fecha actual</small>
+        </div>
 
-      <div class="form-actions">
-        <button type="button" class="btn-cancel" (click)="volver()">
-          Cancelar
-        </button>
-        <button 
-          type="submit" 
-          class="btn-submit"
-          [disabled]="ataqueForm.invalid || loading"
-        >
-          <span *ngIf="!loading">{{esEdicion ? 'Actualizar' : 'Crear'}} Ataque</span>
-          <span *ngIf="loading">Guardando...</span>
-        </button>
-      </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="volver()">
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            class="btn-submit"
+            [disabled]="ataqueForm.invalid || loading"
+          >
+            <span *ngIf="!loading">{{esEdicion ? 'Actualizar' : 'Crear'}} Ataque</span>
+            <span *ngIf="loading">Guardando...</span>
+          </button>
+        </div>
 
-      <div class="error-general" *ngIf="error">
-        {{error}}
-      </div>
-    </form>
+        <div class="error-general" *ngIf="error">
+          {{error}}
+        </div>
+      </form>
+    </div>
   </div>
 </div>

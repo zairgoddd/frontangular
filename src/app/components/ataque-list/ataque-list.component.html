@@ -1,64 +1,72 @@
-<div class="ataque-container">
-  <div class="header">
-    <h1>⚔️ {{tituloSeccion}}</h1>
-    <div class="actions">
-      <button class="btn-back" (click)="volver()">← Volver</button>
-      <button *ngIf="puedeCrear()" class="btn-primary" (click)="nuevoAtaque()">
-        ➕ Nuevo Ataque
-      </button>
-    </div>
-  </div>
-
-  <div class="user-info">
-    <span>Usuario: <strong>{{currentUser?.nombre}}</strong></span>
-    <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
-      {{currentUser?.role}}
-    </span>
-  </div>
-
-  <div class="filters" *ngIf="ataques.length > 0">
-    <label>Filtrar por severidad: </label>
-    <select (change)="filtrarPorSeveridad($event)" class="select-filter">
-      <option value="">Todas las severidades</option>
-      <option value="CRITICA">Crítica</option>
-      <option value="ALTA">Alta</option>
-      <option value="MODERADA">Moderada</option>
-      <option value="BAJA">Baja</option>
-    </select>
-  </div>
-
-  <div class="loading" *ngIf="loading">Cargando ataques...</div>
-  <div class="error" *ngIf="error">{{error}}</div>
-
-  <div class="ataques-grid" *ngIf="!loading && ataquesFiltrados.length > 0">
-    <div class="ataque-card" *ngFor="let ataque of ataquesFiltrados">
-      <div class="ataque-header">
-        <h3>{{ataque.tipo}}</h3>
-        <span class="severidad-badge" [ngClass]="'severidad-' + ataque.severidad.toLowerCase()">
-          {{getSeveridadIcon(ataque.severidad)}} {{ataque.severidad}}
-        </span>
-      </div>
-      
-      <div class="ataque-body">
-        <p><strong>Vector:</strong> {{ataque.vector}}</p>
-        <p><strong>Sistema Afectado:</strong> {{ataque.sistemaAfectado}}</p>
-        <p><strong>Fecha del Evento:</strong> {{formatDate(ataque.fechaEvento)}}</p>
-        <p *ngIf="ataque.amenaza"><strong>Amenaza:</strong> {{ataque.amenaza.tipo}}</p>
-      </div>
-      
-      <div class="ataque-actions">
-        <button *ngIf="puedeEditar()" class="btn-edit" (click)="editarAtaque(ataque.id!)">
-          ✏️ Editar
+<!-- ataque-list.component.html - ACTUALIZADO -->
+<div class="page-container">
+  <!-- Header compartido -->
+  <app-shared-header activeRoute="ataques"></app-shared-header>
+  
+  <!-- Contenido principal -->
+  <div class="ataque-container">
+    <div class="content-header">
+      <h2>⚔️ {{tituloSeccion}}</h2>
+      <div class="actions">
+        <button 
+          *ngIf="amenazaId" 
+          class="btn-back" 
+          (click)="volver()">
+          ← Volver a Amenazas
         </button>
-        <button *ngIf="puedeEliminar()" class="btn-delete" (click)="eliminarAtaque(ataque.id!, ataque.tipo)">
-          🗑️ Eliminar
+        <button 
+          *ngIf="puedeCrear()" 
+          class="btn-primary" 
+          (click)="nuevoAtaque()">
+          ➕ Nuevo Ataque
         </button>
       </div>
     </div>
-  </div>
 
-  <div class="no-data" *ngIf="!loading && ataquesFiltrados.length === 0 && !error">
-    <h3>No hay ataques registrados</h3>
-    <p *ngIf="puedeCrear()">Haz clic en "Nuevo Ataque" para agregar el primero</p>
+    <div class="filters" *ngIf="ataques.length > 0">
+      <label>Filtrar por severidad: </label>
+      <select (change)="filtrarPorSeveridad($event)" class="select-filter">
+        <option value="">Todas las severidades</option>
+        <option value="CRITICA">Crítica</option>
+        <option value="ALTA">Alta</option>
+        <option value="MODERADA">Moderada</option>
+        <option value="BAJA">Baja</option>
+      </select>
+    </div>
+
+    <div class="loading" *ngIf="loading">Cargando ataques...</div>
+    <div class="error" *ngIf="error">{{error}}</div>
+
+    <div class="ataques-grid" *ngIf="!loading && ataquesFiltrados.length > 0">
+      <div class="ataque-card" *ngFor="let ataque of ataquesFiltrados">
+        <div class="ataque-header">
+          <h3>{{ataque.tipo}}</h3>
+          <span class="severidad-badge" [ngClass]="'severidad-' + ataque.severidad.toLowerCase()">
+            {{getSeveridadIcon(ataque.severidad)}} {{ataque.severidad}}
+          </span>
+        </div>
+        
+        <div class="ataque-body">
+          <p><strong>Vector:</strong> {{ataque.vector}}</p>
+          <p><strong>Sistema Afectado:</strong> {{ataque.sistemaAfectado}}</p>
+          <p><strong>Fecha del Evento:</strong> {{formatDate(ataque.fechaEvento)}}</p>
+          <p *ngIf="ataque.amenaza"><strong>Amenaza:</strong> {{ataque.amenaza.tipo}}</p>
+        </div>
+        
+        <div class="ataque-actions">
+          <button *ngIf="puedeEditar()" class="btn-edit" (click)="editarAtaque(ataque.id!)">
+            ✏️ Editar
+          </button>
+          <button *ngIf="puedeEliminar()" class="btn-delete" (click)="eliminarAtaque(ataque.id!, ataque.tipo)">
+            🗑️ Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-data" *ngIf="!loading && ataquesFiltrados.length === 0 && !error">
+      <h3>No hay ataques registrados</h3>
+      <p *ngIf="puedeCrear()">Haz clic en "Nuevo Ataque" para agregar el primero</p>
+    </div>
   </div>
 </div>

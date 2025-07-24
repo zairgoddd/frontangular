@@ -1,0 +1,41 @@
+<div class="header-container">
+  <header class="dashboard-header">
+    <h1>🛡️ Sistema de Ataques Informáticos</h1>
+    <div class="user-info">
+      <span>Bienvenido, <strong>{{currentUser?.nombre}}</strong></span>
+      <span class="role-badge" [ngClass]="'role-' + currentUser?.role?.toLowerCase()">
+        {{currentUser?.role}}
+      </span>
+      <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </header>
+  
+  <!-- Barra de navegación -->
+  <nav class="main-nav">
+    <button 
+      class="nav-btn" 
+      [class.active]="activeRoute === 'dashboard'"
+      (click)="irADashboard()">
+      🏠 Dashboard
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeRoute === 'amenazas'"
+      (click)="irAAmenazas()">
+      🛡️ Amenazas
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeRoute === 'ataques'"
+      (click)="irAAtaques()">
+      ⚔️ Ataques
+    </button>
+    <button 
+      *ngIf="esAdmin()" 
+      class="nav-btn" 
+      [class.active]="activeRoute === 'usuarios'"
+      (click)="irAUsuarios()">
+      👥 Usuarios
+    </button>
+  </nav>
+</div>
