@@ -32,10 +32,27 @@ export class SharedHeaderComponent implements OnInit {
   }
 
   // Navegación
-  irADashboard(): void {
-    const role = this.currentUser?.role?.toLowerCase();
-    this.router.navigate([`/${role}`]);
+
+// Método corregido en SharedHeaderComponent
+irADashboard(): void {
+  const role = this.currentUser?.role;
+  
+  // Mapear los roles a las rutas correctas (igual que en el login)
+  switch(role) {
+    case 'ADMINISTRADOR':
+      this.router.navigate(['/admin']);
+      break;
+    case 'ANALISTA':
+      this.router.navigate(['/analista']);
+      break;
+    case 'CLIENTE':
+      this.router.navigate(['/cliente']);
+      break;
+    default:
+      this.router.navigate(['/dashboard']);
+      break;
   }
+}
 
   irAAmenazas(): void {
     this.router.navigate(['/amenazas']);
