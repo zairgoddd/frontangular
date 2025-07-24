@@ -1,0 +1,75 @@
+<div class="verify-container">
+  <div class="verify-card">
+    <div class="verify-header">
+      <div class="logo">
+        <i class="shield-icon">🛡️</i>
+      </div>
+      <h1>Verificar Cuenta</h1>
+      <p>Hemos enviado un código de verificación a:</p>
+      <strong class="email-display">{{ email }}</strong>
+      <p class="instruction">Ingresa el código de 6 dígitos para activar tu cuenta</p>
+    </div>
+
+    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()" class="verify-form">
+      <!-- Campo Código -->
+      <div class="form-group">
+        <label for="codigo">Código de Verificación</label>
+        <input 
+          type="text" 
+          id="codigo"
+          formControlName="codigo"
+          placeholder="123456"
+          maxlength="6"
+          class="code-input"
+          [class.error]="isFieldInvalid('codigo')"
+        >
+        <div class="error-messages" *ngIf="isFieldInvalid('codigo')">
+          <small *ngIf="hasError('codigo', 'required')">El código es obligatorio</small>
+          <small *ngIf="hasError('codigo', 'minlength') || hasError('codigo', 'maxlength')">
+            El código debe tener exactamente 6 dígitos
+          </small>
+        </div>
+      </div>
+
+      <!-- Mensaje de éxito -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        <i class="success-icon">✅</i>
+        {{ successMessage }}
+        <div class="redirect-info">
+          <small>Redirigiendo al login en unos segundos...</small>
+        </div>
+      </div>
+
+      <!-- Error general -->
+      <div class="alert alert-error" *ngIf="errorMessage">
+        <i class="error-icon">⚠️</i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Botón de verificación -->
+      <button 
+        type="submit" 
+        class="verify-btn"
+        [disabled]="isLoading || successMessage"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Verificar Cuenta</span>
+        <span *ngIf="isLoading">
+          <i class="spinner">⟳</i>
+          Verificando...
+        </span>
+      </button>
+
+      <!-- Opciones adicionales -->
+      <div class="additional-options">
+        <button type="button" class="link-btn" (click)="resendCode()" [disabled]="isLoading">
+          ¿No recibiste el código? Reenviar
+        </button>
+        
+        <button type="button" class="link-btn" (click)="goToLogin()">
+          Volver al Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

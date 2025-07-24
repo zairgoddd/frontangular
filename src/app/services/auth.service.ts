@@ -19,6 +19,22 @@ export interface LoginResponse {
   role: string;
 }
 
+// NUEVAS INTERFACES
+export interface RegisterRequest {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
+export interface VerifyAccountRequest {
+  email: string;
+  codigo: string;
+}
+
+export interface MessageResponse {
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -45,6 +61,7 @@ export class AuthService {
     }
   }
 
+  // MÉTODO ORIGINAL DE LOGIN (NO MODIFICADO)
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
       .pipe(
@@ -59,6 +76,16 @@ export class AuthService {
       );
   }
 
+  // NUEVOS MÉTODOS PARA REGISTRO Y VERIFICACIÓN
+  register(registerData: RegisterRequest): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}/register`, registerData);
+  }
+
+  verifyAccount(verifyData: VerifyAccountRequest): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}/verify-account`, verifyData);
+  }
+
+  // MÉTODOS ORIGINALES (NO MODIFICADOS)
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('currentUser');

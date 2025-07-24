@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
@@ -11,19 +11,40 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
+  verificationSuccess = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
+
+  ngOnInit(): void {
+    // Verificar si viene de la verificación exitosa
+    this.route.queryParams.subscribe(params => {
+      if (params['verified'] === 'true') {
+        this.verificationSuccess = true;
+        // Pre-llenar el email si viene de la verificación
+        if (params['email']) {
+          this.loginForm.patchValue({
+            username: params['email']
+          });
+        }
+        // Ocultar el mensaje después de 5 segundos
+        setTimeout(() => {
+          this.verificationSuccess = false;
+        }, 5000);
+      }
     });
   }
 
@@ -82,6 +103,11 @@ export class LoginComponent {
     } else {
       this.markFormGroupTouched();
     }
+  }
+
+  // NUEVO: Método para ir al registro
+  goToRegister(): void {
+    this.router.navigate(['/register']);
   }
 
   private markFormGroupTouched(): void {

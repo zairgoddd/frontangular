@@ -8,6 +8,12 @@
       <p>Ingresa tus credenciales para acceder</p>
     </div>
 
+    <!-- Mensaje de cuenta verificada -->
+    <div class="alert alert-success" *ngIf="verificationSuccess">
+      <i class="success-icon">✅</i>
+      ¡Cuenta verificada exitosamente! Ya puedes iniciar sesión.
+    </div>
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <!-- Campo Username -->
       <div class="form-group">
@@ -59,6 +65,14 @@
           Cargando...
         </span>
       </button>
+
+      <!-- NUEVO: Botón para crear cuenta -->
+      <div class="register-section">
+        <p>¿No tienes una cuenta?</p>
+        <button type="button" class="register-btn" (click)="goToRegister()">
+          Crear Cuenta
+        </button>
+      </div>
     </form>
 
     <!-- Usuarios de prueba -->
