@@ -21,7 +21,7 @@ export enum NivelRiesgo {
   providedIn: 'root'
 })
 export class AmenazaService {
-  private apiUrl = 'http://localhost:8080/api/amenazas';
+  private apiUrl = 'https://backend-production-99347.up.railway.app/api/amenazas';
 
   constructor(private http: HttpClient) {}
 

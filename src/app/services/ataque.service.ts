@@ -25,7 +25,7 @@ export enum Severidad {
   providedIn: 'root'
 })
 export class AtaqueService {
-  private apiUrl = 'http://localhost:8080/api/ataques';
+  private apiUrl = 'hhttps://backend-production-99347.up.railway.app/api/ataques';
 
   constructor(private http: HttpClient) {}
 
